@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "4000:4000"
+    environment:
+      USER_SERVICE_URL: "http://user-service:4001"
+      WASTE_CATEGORY_SERVICE_URL: "http://waste-category-service:4002"
+      WASTE_ITEM_SERVICE_URL: "http://waste-item-service:4003"
+      CHALLENGE_SERVICE_URL: "http://challenge-service:4004"
+    env_file:
+      - ./api-gateway/.env
+    depends_on:
+      - user-service
+      - waste-category-service
+      - waste-item-service
+      - challenge-service
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "4001:4001"
+    env_file:
+      - ./user-service/.env
+
+  waste-category-service:
+    build:
+      context: ./waste-category-service
+    ports:
+      - "4002:4002"
+    env_file:
+      - ./waste-category-service/.env
+
+  waste-item-service:
+    build:
+      context: ./waste-item-service
+    ports:
+      - "4003:4003"
+    env_file:
+      - ./waste-item-service/.env
+
+  challenge-service:
+    build:
+      context: ./challenge-service
+    ports:
+      - "4004:4004"
+    env_file:
+      - ./challenge-service/.env
