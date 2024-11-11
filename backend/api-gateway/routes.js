@@ -18,10 +18,15 @@ router.use("/users", async (req, res) => {
   //const url = `${USER_SERVICE_URL}${req.originalUrl.replace("/api","")}`;  //muốn sử dụng "/api" để bỏ qua 
   //const url = `${USER_SERVICE_URL}${req.path}`; // Sử dụng req.path vì có "/api" thay vì "/"
   try {
-    const response = await axios({ method: req.method, url, data: req.body,
-      headers: {
-        ...req.headers, // Chuyển tiếp tất cả header, bao gồm Authorization
-      },  
+    const headers = { // phân loại headers khi (get profile) authorization với (login và register) content-type
+      Authorization: req.headers["authorization"], // Chuyển tiếp header Authorization 
+      "Content-Type": req.headers["content-type"], // Chuyển tiếp header Content-Type
+    };
+    const response = await axios({ method: req.method, url, data: req.body, 
+      headers,
+      /*headers: {
+        ...req.headers, // Chuyển tiếp tất cả header, bao gồm Authorization // bị lỗi khi login và register
+      }, */ 
      });
     res.status(response.status).json(response.data);
   } catch (error) {
