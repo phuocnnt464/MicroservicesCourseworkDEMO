@@ -14,10 +14,15 @@ const {
 
 // Chuyển tiếp các yêu cầu của user-service
 router.use("/users", async (req, res) => {
-  const url = `${USER_SERVICE_URL}${req.originalUrl}`;
+  const url = `${USER_SERVICE_URL}${req.originalUrl}`; // only using "/"
+  //const url = `${USER_SERVICE_URL}${req.originalUrl.replace("/api","")}`;  //muốn sử dụng "/api" để bỏ qua 
   //const url = `${USER_SERVICE_URL}${req.path}`; // Sử dụng req.path vì có "/api" thay vì "/"
   try {
-    const response = await axios({ method: req.method, url, data: req.body });
+    const response = await axios({ method: req.method, url, data: req.body,
+      headers: {
+        ...req.headers, // Chuyển tiếp tất cả header, bao gồm Authorization
+      },  
+     });
     res.status(response.status).json(response.data);
   } catch (error) {
     res.status(error.response ? error.response.status : 500).json(error.response ? error.response.data : { error: "Service Unavailable" });
