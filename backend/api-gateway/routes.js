@@ -4,6 +4,12 @@ const axios = require("axios");
 
 const router = express.Router();
 
+//NEED IN FUTURE
+//For the features, improve the Waste App by adding:
+//+ Categories Service: add API GetItemsOfOneCategory(CategoryId)
+//+ User Service: add API GetItemsOfOneUsers(UserId)
+//+ Challenges Service: add API GetUsersOfOneChallenge(ChallengeId)
+
 // Load các URL dịch vụ từ biến môi trường
 const {
   USER_SERVICE_URL,
